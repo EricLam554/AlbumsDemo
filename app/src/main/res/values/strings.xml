@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">AlbumsDemo</string>
+    <string name="app_name">albumsdemo</string>
+    <string name="title_home">Home</string>
+    <string name="title_bookmark">Bookmark</string>
 </resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TextAppearance.AppCompat.Widget.ActionBar.Title"
+        parent="TextAppearance.AppTheme.Headline1">
+    </style>
+
+</resources>
+

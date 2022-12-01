@@ -1,4 +1,4 @@
-package com.example.albumslistingdemo.utils
+package com.example.albumsdemo.utils
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter

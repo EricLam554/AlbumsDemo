@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.albumsdemo.presentation.home.AlbumsListItemViewModel"/>
+        <import type="android.view.View" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/albums_card"
+        android:layout_width="180dp"
+        android:layout_height="250dp"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp">
+
+            <ImageView
+                android:id="@+id/collection_image"
+                android:layout_width="match_parent"
+                android:scaleType="fitXY"
+                android:layout_height="150dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:glideUrl="@{viewModel.imageUrl}" />
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:scaleType="centerInside"
+                android:layout_marginLeft="120dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:background="@drawable/ic_bookmark"
+                android:backgroundTint="@color/purple_500"
+                android:visibility="@{viewModel.isBookmarked ? View.VISIBLE : View.INVISIBLE}"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/collection_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textAlignment="textStart"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="@{viewModel.collectionName}"
+            android:textAppearance="@style/TextAppearance.AppTheme.Subtitle1"
+            tool:text="Jack Johnson and Friends: Sing-A-Longs and Lullabies for the Film Curious George"/>
+
+        <TextView
+            android:id="@+id/artist_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textAlignment="textStart"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="@{viewModel.artistName}"
+            android:textAppearance="@style/TextAppearance.AppTheme.Body2"
+            tool:text="Jack Johnson"/>
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textAlignment="textStart"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="@{viewModel.price}"
+            android:textAppearance="@style/TextAppearance.AppTheme.Body2"
+            tool:text="$9.9"/>
+
+    </LinearLayout>
+
+</layout>
