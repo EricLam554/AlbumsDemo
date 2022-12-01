@@ -1,4 +1,4 @@
-package com.example.albumslistingdemo.data.database
+package com.example.albumsdemo.data.database
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

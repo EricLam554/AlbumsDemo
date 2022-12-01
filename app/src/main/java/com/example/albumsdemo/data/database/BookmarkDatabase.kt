@@ -1,10 +1,9 @@
-package com.example.albumslistingdemo.data.database
+package com.example.albumsdemo.data.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.albumslistingdemo.presentation.home.HomeFragment
 
 
 @Database(entities = [BookmarkEntity::class], version = 1)
