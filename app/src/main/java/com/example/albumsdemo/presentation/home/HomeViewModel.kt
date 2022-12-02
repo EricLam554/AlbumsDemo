@@ -24,24 +24,23 @@ class HomeViewModel : ViewModel() {
 
     private val resultCount = MutableLiveData<Int?>()
     val albumsListItemViewModelsLiveData = MutableLiveData<ArrayList<AlbumsListItemViewModel>>()
-    val albumsInteractor = AlbumsInteractor()
+    private val albumsInteractor = AlbumsInteractor()
 
     private var bookmarkArray: List<Int>? = null
 
     fun getAlbumsList() {
         viewModelScope.launch {
-            albumsInteractor.albumsApi()?.enqueue(object : Callback<AlbumsResponse> {
-                override fun onFailure(call: Call<AlbumsResponse>?, throwable: Throwable?) {
-                    onDataNotAvailable(throwable)
-                }
+            try {
+                val response = albumsInteractor.albumsApi()
 
-                override fun onResponse(
-                    call: Call<AlbumsResponse>?,
-                    response: Response<AlbumsResponse>
-                ) {
-                    mapData(response.body())
+                if (response is Resource.Success) {
+                    mapData(response.data)
+                }else{
+                    onDataNotAvailable(response?.throwable)
                 }
-            })
+            }catch(e: Exception) {
+                onDataNotAvailable(e)
+            }
         }
     }
 

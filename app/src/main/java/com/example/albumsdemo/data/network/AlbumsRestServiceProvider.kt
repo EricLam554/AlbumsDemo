@@ -18,6 +18,8 @@ class AlbumsRestServiceProvider {
             AlbumsResponseDeserializer()
         ).create()
 
+    private var client = OkHttpClient()
+
     fun getService(): AlbumsRestService? {
 
         if (restService == null) {
@@ -25,9 +27,9 @@ class AlbumsRestServiceProvider {
             val baseUrl = "https://itunes.apple.com/"
 
             restService = Retrofit.Builder()
+                .client(client)
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .baseUrl(baseUrl)
                 .build()
                 .create(AlbumsRestService::class.java)
         }

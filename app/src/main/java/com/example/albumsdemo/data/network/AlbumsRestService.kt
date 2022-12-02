@@ -10,6 +10,6 @@ import retrofit2.http.Url
 interface AlbumsRestService {
 
     @GET("search?term=jack+johnson&entity=album")
-    fun getAlbums(): Call<AlbumsResponse>
+    suspend fun getAlbums(): AlbumsResponse
 
 }
