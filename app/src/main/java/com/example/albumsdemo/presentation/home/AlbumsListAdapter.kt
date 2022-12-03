@@ -17,33 +17,44 @@ class AlbumsListAdapter(private val viewModels: ArrayList<AlbumsListItemViewMode
     override fun onBindViewHolder(holder: AlbumsListViewHolder, position: Int) {
         holder.bind(viewModels[position])
 
+        val bookmarkDatabaseDao =
+            BookmarkDatabase.getInstance(holder.itemView.context).bookmarkDAO()
+
+        val tempCollectionId = viewModels[position].collectionId
+
         holder.binding.albumsCard.setOnClickListener {
-            val bookmarkDatabaseDao = BookmarkDatabase.getInstance(it.context).bookmarkDAO()
 
-            if (viewModels[position].isBookmarked) {
-                viewModels[position].isBookmarked = false
-
-                CoroutineScope(Dispatchers.IO).launch {
-                    bookmarkDatabaseDao.deleteBookmarkById(viewModels[position].collectionId)
-                }
-
-            }else{
+            if (!viewModels[position].isBookmarked) {
                 viewModels[position].isBookmarked = true
 
                 CoroutineScope(Dispatchers.IO).launch {
                     bookmarkDatabaseDao.insert(BookmarkEntity(viewModels[position].collectionId))
                 }
+
             }
 
             notifyDataSetChanged()
 
+        }
+
+        holder.binding.albumsCard.setOnLongClickListener {
+            if (viewModels[position].isBookmarked) {
+                viewModels[position].isBookmarked = false
+
+                CoroutineScope(Dispatchers.IO).launch {
+                    bookmarkDatabaseDao.deleteBookmarkById(tempCollectionId)
+                }
+            }
+
+            notifyDataSetChanged()
+
+            return@setOnLongClickListener true
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlbumsListViewHolder {
         return AlbumsListViewHolder.from(parent)
     }
-
 
 
 }

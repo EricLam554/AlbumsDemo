@@ -18,8 +18,9 @@ class AlbumsBookmarkListAdapter(private val viewModels: ArrayList<AlbumsListItem
     override fun onBindViewHolder(holder: AlbumsListViewHolder, position: Int) {
         holder.bind(viewModels[position])
 
+        val bookmarkDatabaseDao = BookmarkDatabase.getInstance(holder.itemView.context).bookmarkDAO()
+
         holder.binding.albumsCard.setOnLongClickListener {
-            val bookmarkDatabaseDao = BookmarkDatabase.getInstance(it.context).bookmarkDAO()
 
             if (viewModels[position].isBookmarked) {
                 viewModels[position].isBookmarked = false
