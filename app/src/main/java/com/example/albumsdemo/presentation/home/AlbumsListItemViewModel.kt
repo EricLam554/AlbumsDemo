@@ -13,6 +13,5 @@ class AlbumsListItemViewModel : ViewModel() {
     var artistName = ""
     var price = ""
     var isBookmarked = false
-    var isVisible = true
 
 }

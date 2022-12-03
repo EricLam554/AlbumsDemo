@@ -4,21 +4,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.albumsdemo.data.AlbumsResponse
-import com.example.albumsdemo.data.AlbumsResponseDeserializer
 import com.example.albumsdemo.data.Resource
 import com.example.albumsdemo.data.database.BookmarkDAO
-import com.example.albumsdemo.data.network.AlbumsRestService
 import com.example.albumsdemo.domain.AlbumsInteractor
 import com.example.albumsdemo.presentation.home.AlbumsListItemViewModel
-import com.google.gson.GsonBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
 
 class BookmarkViewModel : ViewModel() {
