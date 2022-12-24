@@ -15,8 +15,14 @@
   7. MVVM Architecture
   8. Clean Architecture
   9. Unit Testing
+  10. Hilt
 
 ## UI & UX 
   1. Support Night Mode
   2. Single Click to add a bookmark quickly 
   3. Long Press to remove the bookmark to prevent mistake delete 
+
+
+## Reference
+  1. https://proandroiddev.com/android-clean-architecture-kotlin-flow-hilt-simplest-way-415d7e0f41b
+  2. https://github.com/android/architecture-samples/tree/views-hilt

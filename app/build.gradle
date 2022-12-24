@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'dagger.hilt.android.plugin'
 }
 
 apply plugin: 'kotlin-kapt'
@@ -20,7 +21,7 @@ android {
 
         javaCompileOptions{
             annotationProcessorOptions{
-                arguments= ["room.schemaLocation":
+                arguments+= ["room.schemaLocation":
                                     "$projectDir/schemas".toString()]
             }
         }
@@ -54,6 +55,7 @@ ext {
     retrofitVersion = '2.7.2'
     retrofitLoggerVersion = '3.8.1'
     coroutinesVersion = '1.3.1'
+    hiltVersion = "2.42"
 }
 
 dependencies {
@@ -109,4 +111,11 @@ dependencies {
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
 
+    // Hilt
+    implementation "com.google.dagger:hilt-android:$hiltVersion"
+    kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
+
+    // Hilt testing
+    androidTestImplementation "com.google.dagger:hilt-android-testing:$hiltVersion"
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hiltVersion"
 }

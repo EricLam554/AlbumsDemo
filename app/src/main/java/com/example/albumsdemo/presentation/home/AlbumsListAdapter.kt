@@ -2,6 +2,7 @@ package com.example.albumsdemo.presentation.home
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.albumsdemo.data.database.BookmarkDAO
 import com.example.albumsdemo.data.database.BookmarkDatabase
 import com.example.albumsdemo.data.database.BookmarkEntity
 import kotlinx.coroutines.CoroutineScope
@@ -9,16 +10,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class AlbumsListAdapter(private val viewModels: ArrayList<AlbumsListItemViewModel>) :
+class AlbumsListAdapter(
+    private val viewModels: ArrayList<AlbumsListItemViewModel>,
+    private val bookmarkDatabaseDao: BookmarkDAO
+) :
     RecyclerView.Adapter<AlbumsListViewHolder>() {
 
     override fun getItemCount() = viewModels.size
 
     override fun onBindViewHolder(holder: AlbumsListViewHolder, position: Int) {
         holder.bind(viewModels[position])
-
-        val bookmarkDatabaseDao =
-            BookmarkDatabase.getInstance(holder.itemView.context).bookmarkDAO()
 
         val tempCollectionId = viewModels[position].collectionId
 

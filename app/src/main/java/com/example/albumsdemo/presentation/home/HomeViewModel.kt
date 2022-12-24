@@ -7,9 +7,11 @@ import com.example.albumsdemo.data.AlbumsResponse
 import com.example.albumsdemo.data.AlbumsResponseDeserializer
 import com.example.albumsdemo.data.Resource
 import com.example.albumsdemo.data.database.BookmarkDAO
+import com.example.albumsdemo.data.database.BookmarkDatabase
 import com.example.albumsdemo.data.network.AlbumsRestService
 import com.example.albumsdemo.domain.AlbumsInteractor
 import com.google.gson.GsonBuilder
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,14 +21,20 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
+import javax.inject.Inject
 
-class HomeViewModel : ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    private val albumsInteractor: AlbumsInteractor,
+    private val bookmarkDatabase: BookmarkDatabase
+) : ViewModel() {
 
     private val resultCount = MutableLiveData<Int?>()
     val albumsListItemViewModelsLiveData = MutableLiveData<ArrayList<AlbumsListItemViewModel>>()
-    private val albumsInteractor = AlbumsInteractor()
 
     private var bookmarkArray: List<Int>? = null
+
+    public var bookmarkDatabaseDAO = bookmarkDatabase.bookmarkDAO()
 
     fun getAlbumsList() {
         viewModelScope.launch {
@@ -75,9 +83,10 @@ class HomeViewModel : ViewModel() {
         Timber.d("load data: onDataNotAvailable %s", throwable)
     }
 
-     fun getBookmarkList(bookmarkDatabaseDao: BookmarkDAO) {
+     fun getBookmarkList() {
          CoroutineScope(Dispatchers.IO).launch {
-            bookmarkArray = bookmarkDatabaseDao.getBookmarks().map {
+            bookmarkArray = bookmarkDatabaseDAO
+                .getBookmarks().map {
                 it.collectionId
             }
          }

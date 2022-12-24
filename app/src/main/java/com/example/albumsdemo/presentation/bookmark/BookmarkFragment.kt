@@ -5,37 +5,33 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.albumsdemo.data.database.BookmarkDAO
 import com.example.albumsdemo.data.database.BookmarkDatabase
 import com.example.albumsdemo.databinding.FragmentBookmarkBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class BookmarkFragment : Fragment() {
 
     private var _binding: FragmentBookmarkBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var bookmarkViewModel: BookmarkViewModel
-    private lateinit var bookmarkDatabaseDao: BookmarkDAO
+    private val bookmarkViewModel by viewModels<BookmarkViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        bookmarkViewModel =
-            ViewModelProvider(this).get(BookmarkViewModel::class.java)
 
         _binding = FragmentBookmarkBinding.inflate(inflater, container, false)
 
         val root: View = binding.root
 
-        if (container != null) {
-            bookmarkDatabaseDao = BookmarkDatabase.getInstance(container.context).bookmarkDAO()
-        }
-
-        bookmarkViewModel.getBookmarkList(bookmarkDatabaseDao)
+        bookmarkViewModel.getBookmarkList()
         bookmarkViewModel.getAlbumsList()
 
         subscribe()
@@ -46,7 +42,7 @@ class BookmarkFragment : Fragment() {
     private fun subscribe() {
         bookmarkViewModel.albumsListItemViewModelsLiveData.observe(viewLifecycleOwner) {
             val recyclerView = binding.albumsList
-            recyclerView.adapter = AlbumsBookmarkListAdapter(it)
+            recyclerView.adapter = AlbumsBookmarkListAdapter(it, bookmarkViewModel.bookmarkDatabaseDAO)
             recyclerView.layoutManager = GridLayoutManager(activity, 2)
         }
     }
