@@ -1,5 +1,6 @@
 package com.example.albumsdemo.presentation.home
 
+import android.os.Parcelable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -32,9 +33,15 @@ class HomeViewModel @Inject constructor(
     private val resultCount = MutableLiveData<Int?>()
     val albumsListItemViewModelsLiveData = MutableLiveData<ArrayList<AlbumsListItemViewModel>>()
 
-    private var bookmarkArray: List<Int>? = null
+    var bookmarkArray: List<Int>? = null
 
     public var bookmarkDatabaseDAO = bookmarkDatabase.bookmarkDAO()
+
+    var listStateParcel: Parcelable? = null
+
+    fun saveListState(parcel: Parcelable) {
+        listStateParcel = parcel
+    }
 
     fun getAlbumsList() {
         viewModelScope.launch {
