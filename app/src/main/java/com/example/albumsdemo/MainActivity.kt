@@ -13,6 +13,8 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.viewbinding.BuildConfig
 import com.example.albumsdemo.R
 import com.example.albumsdemo.databinding.ActivityMainBinding
+import com.example.albumsdemo.presentation.home.AlbumsDetailFragment
+import com.example.albumsdemo.presentation.home.AlbumsListItemViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -42,5 +44,16 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
+
+//    fun goToAlbumsDetail(albumsListItemViewModel: AlbumsListItemViewModel) {
+//        val albumsDetailFragment = AlbumsDetailFragment()
+//        val arguments = Bundle()
+//
+//        albumsDetailFragment.arguments = arguments
+//
+//        supportFragmentManager.beginTransaction()
+//            .add(R.id.root_view, albumsDetailFragment, null)
+//            .addToBackStack(null).commit()
+//    }
 
 }

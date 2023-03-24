@@ -16,6 +16,8 @@ class AlbumsListAdapter(
 ) :
     RecyclerView.Adapter<AlbumsListViewHolder>() {
 
+    var onItemClick: ((AlbumsListItemViewModel) -> Unit)? = null
+
     override fun getItemCount() = viewModels.size
 
     override fun onBindViewHolder(holder: AlbumsListViewHolder, position: Int) {
@@ -24,18 +26,7 @@ class AlbumsListAdapter(
         val tempCollectionId = viewModels[position].collectionId
 
         holder.binding.albumsCard.setOnClickListener {
-
-            if (!viewModels[position].isBookmarked) {
-                viewModels[position].isBookmarked = true
-
-                CoroutineScope(Dispatchers.IO).launch {
-                    bookmarkDatabaseDao.insert(BookmarkEntity(viewModels[position].collectionId))
-                }
-
-            }
-
-            notifyDataSetChanged()
-
+            onItemClick?.invoke(viewModels[position])
         }
 
         holder.binding.albumsCard.setOnLongClickListener {
@@ -44,6 +35,12 @@ class AlbumsListAdapter(
 
                 CoroutineScope(Dispatchers.IO).launch {
                     bookmarkDatabaseDao.deleteBookmarkById(tempCollectionId)
+                }
+            }else{
+                viewModels[position].isBookmarked = true
+
+                CoroutineScope(Dispatchers.IO).launch {
+                    bookmarkDatabaseDao.insert(BookmarkEntity(viewModels[position].collectionId))
                 }
             }
 

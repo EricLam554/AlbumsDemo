@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.albumsdemo.MainActivity
+import com.example.albumsdemo.R
 import com.example.albumsdemo.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -39,7 +41,19 @@ class HomeFragment : Fragment() {
     private fun subscribe() {
         homeViewModel.albumsListItemViewModelsLiveData.observe(viewLifecycleOwner) {
             val recyclerView = binding.albumsList
-            recyclerView.adapter = AlbumsListAdapter(it, homeViewModel.bookmarkDatabaseDAO)
+            val albumsListAdapter = AlbumsListAdapter(it, homeViewModel.bookmarkDatabaseDAO)
+            albumsListAdapter.onItemClick = { albumsListItemViewModel ->
+                val albumsDetailFragment = AlbumsDetailFragment()
+                val arguments = Bundle()
+
+                albumsDetailFragment.arguments = arguments
+
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_home, albumsDetailFragment, null)
+                    .addToBackStack(null).commit()
+            }
+
+            recyclerView.adapter = albumsListAdapter
             recyclerView.layoutManager = GridLayoutManager(activity, 2)
         }
     }
