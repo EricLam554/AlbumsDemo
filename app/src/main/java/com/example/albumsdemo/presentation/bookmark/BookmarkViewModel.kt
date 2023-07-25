@@ -1,5 +1,6 @@
 package com.example.albumsdemo.presentation.bookmark
 
+import android.os.Parcelable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -28,6 +29,12 @@ class BookmarkViewModel @Inject constructor(
     private var bookmarkArray: List<Int>? = null
 
     val bookmarkDatabaseDAO = bookmarkDatabase.bookmarkDAO()
+
+    var listStateParcel: Parcelable? = null
+
+    fun saveListState(parcel: Parcelable) {
+        listStateParcel = parcel
+    }
 
     fun getAlbumsList() {
         viewModelScope.launch {
