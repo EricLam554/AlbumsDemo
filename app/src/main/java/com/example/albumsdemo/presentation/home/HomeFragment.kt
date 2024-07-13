@@ -46,11 +46,15 @@ class HomeFragment : Fragment() {
                 val albumsDetailFragment = AlbumsDetailFragment()
                 val arguments = Bundle()
 
+                arguments.putInt("collectionId", albumsListItemViewModel.collectionId)
+                arguments.putString("collectionName", albumsListItemViewModel.collectionName)
+
                 albumsDetailFragment.arguments = arguments
 
                 parentFragmentManager.beginTransaction()
                     .replace(R.id.fragment_home, albumsDetailFragment, null)
-                    .addToBackStack(null).commit()
+                    .addToBackStack(null)
+                    .commit()
             }
 
             recyclerView.adapter = albumsListAdapter
