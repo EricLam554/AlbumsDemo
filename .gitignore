@@ -1,2 +1,4 @@
 ﻿.gradle
 .idea
+app/build/generated
+app/build
