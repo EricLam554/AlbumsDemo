@@ -31,8 +31,11 @@ class BookmarkFragment : Fragment() {
 
         val root: View = binding.root
 
-        bookmarkViewModel.getBookmarkList()
-        bookmarkViewModel.getAlbumsList()
+        // save state
+        if (bookmarkViewModel.listStateParcel == null) {
+            bookmarkViewModel.getBookmarkList()
+            bookmarkViewModel.getAlbumsList()
+        }
 
         subscribe()
 
@@ -44,11 +47,24 @@ class BookmarkFragment : Fragment() {
             val recyclerView = binding.albumsList
             recyclerView.adapter = AlbumsBookmarkListAdapter(it, bookmarkViewModel.bookmarkDatabaseDAO)
             recyclerView.layoutManager = GridLayoutManager(activity, 2)
+
+            // save state
+            bookmarkViewModel.listStateParcel?.let { parcelable ->
+                recyclerView.layoutManager?.onRestoreInstanceState(parcelable)
+                bookmarkViewModel.listStateParcel = null
+            }
         }
     }
 
     override fun onDestroyView() {
+        // save state
+        val listState = binding.albumsList?.layoutManager?.onSaveInstanceState()
+        listState?.let {
+            bookmarkViewModel.saveListState(it)
+        }
         super.onDestroyView()
+
         _binding = null
     }
+
 }

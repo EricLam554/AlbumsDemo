@@ -11,6 +11,7 @@ import com.example.albumsdemo.MainActivity
 import com.example.albumsdemo.R
 import com.example.albumsdemo.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_bookmark.*
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -32,8 +33,10 @@ class HomeFragment : Fragment() {
 
         val root: View = binding.root
 
-        homeViewModel.getBookmarkList()
-        homeViewModel.getAlbumsList()
+        if (homeViewModel.listStateParcel == null) {
+            homeViewModel.getBookmarkList()
+            homeViewModel.getAlbumsList()
+        }
 
         subscribe()
 
@@ -61,11 +64,23 @@ class HomeFragment : Fragment() {
 
             recyclerView.adapter = albumsListAdapter
             recyclerView.layoutManager = GridLayoutManager(activity, 2)
+
+            homeViewModel.listStateParcel?.let { parcelable ->
+                recyclerView.layoutManager?.onRestoreInstanceState(parcelable)
+                homeViewModel.listStateParcel = null
+            }
         }
     }
 
     override fun onDestroyView() {
+        val listState = binding.albumsList?.layoutManager?.onSaveInstanceState()
+        listState?.let {
+            homeViewModel.saveListState(it)
+        }
         super.onDestroyView()
+
         _binding = null
     }
+
+
 }
