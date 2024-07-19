@@ -20,6 +20,8 @@ class HomeFragment : Fragment() {
 
     private val homeViewModel by viewModels<HomeViewModel>()
 
+    val albumsDetailFragment = AlbumsDetailFragment()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -43,16 +45,16 @@ class HomeFragment : Fragment() {
             val recyclerView = binding.albumsList
             val albumsListAdapter = AlbumsListAdapter(it, homeViewModel.bookmarkDatabaseDAO)
             albumsListAdapter.onItemClick = { albumsListItemViewModel ->
-                val albumsDetailFragment = AlbumsDetailFragment()
                 val arguments = Bundle()
 
                 arguments.putInt("collectionId", albumsListItemViewModel.collectionId)
                 arguments.putString("collectionName", albumsListItemViewModel.collectionName)
+                arguments.putString("collectionImageUrl", albumsListItemViewModel.imageUrl)
 
                 albumsDetailFragment.arguments = arguments
 
                 parentFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_home, albumsDetailFragment, null)
+                    .add(R.id.fragment_home, albumsDetailFragment, null)
                     .addToBackStack(null)
                     .commit()
             }

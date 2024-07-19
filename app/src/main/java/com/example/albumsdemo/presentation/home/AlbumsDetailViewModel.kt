@@ -10,5 +10,6 @@ class AlbumsDetailViewModel @Inject constructor(): ViewModel() {
 
     val collectionId = MutableLiveData<Int?>()
     val collectionName = MutableLiveData<String?>()
+    val collectionImageUrl = MutableLiveData<String?>()
 
 }

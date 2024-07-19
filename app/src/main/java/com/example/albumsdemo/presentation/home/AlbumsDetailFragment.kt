@@ -34,6 +34,11 @@ class AlbumsDetailFragment : Fragment() {
 
         albumsDetailViewModel.collectionId.postValue(arguments?.getInt("collectionId"))
         albumsDetailViewModel.collectionName.postValue(arguments?.getString("collectionName"))
+        albumsDetailViewModel.collectionImageUrl.postValue(arguments?.getString("collectionImageUrl"))
+
+        binding.backBtn.setOnClickListener {
+            activity?.supportFragmentManager?.popBackStack()
+        }
     }
 
     override fun onDestroyView() {
